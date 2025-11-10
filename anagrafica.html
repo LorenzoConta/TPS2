@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Dati utente</title>
+</head>
+<body>
+  <h2>Inserisci i tuoi dati</h2>
+
+  <label for="fname">Nome:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+
+  <label for="lname">Cognome:</label><br>
+  <input type="text" id="lname" name="lname"><br>
+
+  <label for="address">Indirizzo:</label><br>
+  <input type="text" id="address" name="address"><br>
+
+  <label for="city">Città:</label><br>
+  <input type="text" id="city" name="city"><br><br>
+
+  <input type="button" value="Premi" onclick="stampa()">
+
+  <div id="risultato"></div>
+
+  <script>
+    function stampa() {
+      
+      let nome = document.getElementById("fname").value;
+      let cognome = document.getElementById("lname").value;
+      let indirizzo = document.getElementById("address").value;
+      let citta = document.getElementById("city").value;
+
+    
+      let tabella = `
+        <h3>Risultato:</h3>
+        <table border="1" cellpadding="5">
+          <tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th></tr>
+          <tr><td>${nome}</td><td>${cognome}</td><td>${indirizzo}</td><td>${citta}</td></tr>
+        </table>
+      `;
+
+      
+      document.getElementById("risultato").innerHTML = tabella;
+    }
+  </script>
+</body>
+</html>
 
