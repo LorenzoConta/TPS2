@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Anagrafica 1.1</title>
+</head>
+<body>
+  <h2>Inserisci i tuoi dati</h2>
+
+  <label for="fname">Nome:</label><br>
+  <input type="text" id="fname"><br>
+
+  <label for="lname">Cognome:</label><br>
+  <input type="text" id="lname"><br>
+
+  <label for="address">Indirizzo:</label><br>
+  <input type="text" id="address"><br>
+
+  <label for="city">Città:</label><br>
+  <input type="text" id="city"><br><br>
+
+  <!-- Sesso -->
+  <label>Sesso:</label><br>
+  <input type="radio" name="sesso" value="Maschio"> Maschio
+  <input type="radio" name="sesso" value="Femmina"> Femmina
+  <input type="radio" name="sesso" value="Altro"> Altro<br><br>
+
+  <!-- Diplomi -->
+  <label>Diplomi posseduti:</label><br>
+  <input type="checkbox" name="diploma" value="Licenza media"> Licenza media<br>
+  <input type="checkbox" name="diploma" value="Diploma superiore"> Diploma superiore<br>
+  <input type="checkbox" name="diploma" value="Laurea"> Laurea<br><br>
+
+  <!-- Provincia -->
+  <label for="provincia">Provincia:</label><br>
+  <select id="provincia">
+    <option value="">--Seleziona--</option>
+    <option value="MI">Milano</option>
+    <option value="TO">Torino</option>
+    <option value="RM">Roma</option>
+    <option value="NA">Napoli</option>
+    <option value="FI">Firenze</option>
+  </select><br><br>
+
+  <!-- Sport -->
+  <label for="sport">Sport praticati (puoi selezionarne più di uno):</label><br>
+  <select id="sport" multiple size="5">
+    <option value="Calcio">Calcio</option>
+    <option value="Basket">Basket</option>
+    <option value="Tennis">Tennis</option>
+    <option value="Nuoto">Nuoto</option>
+    <option value="Pallavolo">Pallavolo</option>
+  </select><br><br>
+
+  <input type="button" value="Mostra dati" onclick="stampa()">
+
+  <div id="risultato"></div>
+
+  <script>
+    function stampa() {
+      let nome = document.getElementById("fname").value;
+      let cognome = document.getElementById("lname").value;
+      let indirizzo = document.getElementById("address").value;
+      let citta = document.getElementById("city").value;
+
+      // Sesso
+      let sesso = document.querySelector('input[name="sesso"]:checked');
+      sesso = sesso ? sesso.value : "Non specificato";
+
+      // Diplomi
+      let diplomi = [];
+      document.querySelectorAll('input[name="diploma"]:checked').forEach(function(el) {
+        diplomi.push(el.value);
+      });
+
+      // Provincia
+      let provincia = document.getElementById("provincia").value || "Non specificata";
+
+      // Sport
+      let sportSelezionati = [];
+      let sport = document.getElementById("sport");
+      for (let i = 0; i < sport.options.length; i++) {
+        if (sport.options[i].selected) {
+          sportSelezionati.push(sport.options[i].value);
+        }
+      }
+
+      // Tabella finale
+      let tabella = `
+        <h3>Risultato:</h3>
+        <table border="1" cellpadding="5">
+          <tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th><th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>
+          <tr>
+            <td>${nome}</td>
+            <td>${cognome}</td>
+            <td>${indirizzo}</td>
+            <td>${citta}</td>
+            <td>${sesso}</td>
+            <td>${diplomi.join(", ") || "Nessuno"}</td>
+            <td>${provincia}</td>
+            <td>${sportSelezionati.join(", ") || "Nessuno"}</td>
+          </tr>
+        </table>
+      `;
+
+      document.getElementById("risultato").innerHTML = tabella;
+    }
+  </script>
+</body>
+</html>
