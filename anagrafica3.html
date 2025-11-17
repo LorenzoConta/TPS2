@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anagrafica Oggetto</title>
+</head>
+<body>
+
+<h2>Inserisci i dati</h2>
+
+Nome:<br>
+<input type="text" id="fname"><br><br>
+
+Cognome:<br>
+<input type="text" id="lname"><br><br>
+
+Indirizzo:<br>
+<input type="text" id="address"><br><br>
+
+Città:<br>
+<input type="text" id="city"><br><br>
+
+Sesso: <br>
+<input type="radio" name="sesso" value="Maschio">Maschio
+<input type="radio" name="sesso" value="Femmina">Femmina
+<input type="radio" name="sesso" value="Altro">Altro<br><br>
+
+Diplomi posseduti: <br>
+<input type="checkbox" name="diploma" value="Licenza media">Licenza media<br>
+<input type="checkbox" name="diploma" value="Diploma superiore">Diploma superiore<br>
+<input type="checkbox" name="diploma" value="Laurea">Laurea<br><br>
+
+Provincia:<br>
+<select id="provincia">
+<option value="">--Seleziona--</option>
+<option value="MI">Milano</option>
+<option value="TO">Torino</option>
+<option value="RM">Roma</option>
+<option value="NA">Napoli</option>
+<option value="FI">Firenze</option>
+</select><br><br>
+
+Sport praticati: <br>
+<select id="sport" multiple size="5">
+<option value="Calcio">Calcio</option>
+<option value="Basket">Basket</option>
+<option value="Tennis">Tennis</option>
+<option value="Nuoto">Nuoto</option>
+<option value="Pallavolo">Pallavolo</option>
+</select><br><br>
+
+<button onclick="stampa()">Mostra dati</button>
+
+<div id="risultato"></div>
+
+
+<script>
+
+function stampa() {
+
+    const anagrafica = {};
+
+    anagrafica.nome = document.getElementById("fname").value;
+    anagrafica.cognome = document.getElementById("lname").value;
+    anagrafica.indirizzo = document.getElementById("address").value;
+    anagrafica.citta = document.getElementById("city").value;
+
+    let s = document.querySelector('input[name="sesso"]:checked');
+    anagrafica.sesso = s ? s.value : "Non specificato";
+
+    let diplomi = [];
+    document.querySelectorAll('input[name="diploma"]:checked').forEach(x => {
+        diplomi.push(x.value);
+    });
+    anagrafica.diplomi = diplomi;
+
+    anagrafica.provincia = document.getElementById("provincia").value;
+
+    let sportSel = [];
+    let sp = document.getElementById("sport");
+    for(let i=0; i<sp.options.length; i++){
+        if(sp.options[i].selected){
+            sportSel.push(sp.options[i].value);
+        }
+    }
+    anagrafica.sport = sportSel;
+
+    document.getElementById("risultato").innerHTML = `
+    <table border="1" cellpadding="3">
+        <tr>
+            <th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th>
+            <th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th>
+        </tr>
+        <tr>
+            <td>${anagrafica.nome}</td>
+            <td>${anagrafica.cognome}</td>
+            <td>${anagrafica.indirizzo}</td>
+            <td>${anagrafica.citta}</td>
+            <td>${anagrafica.sesso}</td>
+            <td>${anagrafica.diplomi.join(", ")}</td>
+            <td>${anagrafica.provincia}</td>
+            <td>${anagrafica.sport.join(", ")}</td>
+        </tr>
+    </table>
+    `;
+}
+
+</script>
+
+</body>
+</html>
