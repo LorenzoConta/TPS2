@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Anagrafica 2.0</title>
+    <title>tabella</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,73 +27,74 @@
 <body>
     <h2>Inserisci i tuoi dati</h2>
 
-    <label>Nome: <input type="text" id="nome"></label><br>
-    <label>Cognome: <input type="text" id="cognome"></label><br>
-    <label>Indirizzo: <input type="text" id="indirizzo"></label><br>
-    <label>Città: <input type="text" id="citta"></label><br><br>
+    <!-- Dati base -->
+    <label>Nome: <input type="text" id="nome" value="Lorenzo"></label><br>
+    <label>Cognome: <input type="text" id="cognome" value="Conta"></label><br>
+    <label>Indirizzo: <input type="text" id="indirizzo" value="Via Fabio Filzi 11"></label><br>
+    <label>Città: <input type="text" id="citta" value="Pregnana Milanese"></label><br><br>
 
+    <!-- Sesso -->
     <strong>Sesso:</strong><br>
-    <label><input type="radio" id="maschio" name="sesso"> Maschio</label><br>
-    <label><input type="radio" id="femmina" name="sesso"> Femmina</label><br>
-    <label><input type="radio" id="altro" name="sesso"> Altro</label><br><br>
+    <label><input type="radio" name="sesso" id="maschio"> Maschio</label><br>
+    <label><input type="radio" name="sesso" id="femmina"> Femmina</label><br>
+    <label><input type="radio" name="sesso" id="altro"> Altro</label><br><br>
 
-    <strong>Diplomi posseduti:</strong><br>
+    <!-- Diplomi -->
+    <strong>Diplomi:</strong><br>
     <label><input type="checkbox" id="media"> Licenza Media</label><br>
     <label><input type="checkbox" id="superiore"> Diploma Superiore</label><br>
     <label><input type="checkbox" id="laurea"> Laurea</label><br>
-    <label><input type="checkbox" id="nessun_attestato"> Nessun attestato</label><br><br>
+    <label><input type="checkbox" id="nessuno"> Nessun attestato</label><br><br>
 
+    <!-- Provincia -->
     <label><strong>Provincia:</strong>
         <select id="provincia">
             <option>MI</option><option>RM</option><option>NA</option>
-            <option>TO</option><option>PR</option><option>TA</option>
-            <option>FG</option><option>PG</option><option>AN</option>
+            <option>TO</option><option>BG</option><option>BS</option>
         </select>
     </label><br><br>
 
+    <!-- Sport -->
     <strong>Sport praticati:</strong><br>
     <select id="sport" multiple size="4">
         <option>Calcio</option><option>Basket</option><option>Nuoto</option>
-        <option>Tennis</option><option>Pallavolo</option><option>Muay Thai</option>
-        <option>Scherma</option><option>Softball</option><option>Atletica leggera</option>
-        <option>Rugby</option><option>Boxe</option><option>Golf</option>
-        <option>Tiro a segno</option>
+        <option>Pallavolo</option><option>Boxe</option><option>Rugby</option>
+        <option>Atletica</option><option>Tennis</option>
     </select><br><br>
 
     <button onclick="stampaDati()">Mostra tabella</button>
 
     <div id="risultato"></div>
 
-
     <script>
         function stampaDati() {
-            let nome = document.getElementById("nome").value;
-            let cognome = document.getElementById("cognome").value;
-            let indirizzo = document.getElementById("indirizzo").value;
-            let citta = document.getElementById("citta").value;
+            var nome = document.getElementById("nome").value;
+            var cognome = document.getElementById("cognome").value;
+            var indirizzo = document.getElementById("indirizzo").value;
+            var citta = document.getElementById("citta").value;
 
-            let sesso = "";
+            var sesso = "";
             if (document.getElementById("maschio").checked) sesso = "Maschio";
             if (document.getElementById("femmina").checked) sesso = "Femmina";
             if (document.getElementById("altro").checked) sesso = "Altro";
 
-            let diplomi = "";
+            var diplomi = "";
             if (document.getElementById("media").checked) diplomi += "Licenza Media ";
             if (document.getElementById("superiore").checked) diplomi += "Diploma Superiore ";
             if (document.getElementById("laurea").checked) diplomi += "Laurea ";
-            if (document.getElementById("nessun_attestato").checked) diplomi = "Nessun attestato";
+            if (document.getElementById("nessuno").checked) diplomi = "Nessun attestato";
 
-            let provincia = document.getElementById("provincia").value;
+            var provincia = document.getElementById("provincia").value;
 
-            let sportSelezionati = document.getElementById("sport");
-            let sport = "";
-            for (let i = 0; i < sportSelezionati.options.length; i++) {
+            var sportSelezionati = document.getElementById("sport");
+            var sport = "";
+            for (var i = 0; i < sportSelezionati.options.length; i++) {
                 if (sportSelezionati.options[i].selected) {
                     sport += sportSelezionati.options[i].value + " ";
                 }
             }
 
-            let tabella = "<table>";
+            var tabella = "<table>";
             tabella += "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th><th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>";
             tabella += "<tr>";
             tabella += "<td>" + nome + "</td>";
