@@ -2,137 +2,98 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Anagrafica Completa</title>
+    <title>Anagrafica 2.0</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 30px;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        select {
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-        }
-        input[type="radio"],
-        input[type="checkbox"] {
-            margin-right: 5px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #3e8e41;
-        }
         table {
             border-collapse: collapse;
             margin-top: 20px;
-            width: 100%;
         }
         th, td {
             border: 1px solid #444;
             padding: 8px 12px;
-            text-align: left;
         }
         th {
             background-color: #eee;
         }
-        #risultato div {
-            margin-top: 20px;
+        input, select {
+            margin: 5px;
         }
     </style>
 </head>
 <body>
     <h2>Inserisci i tuoi dati</h2>
 
-    <label>Nome: <input type="text" id="nome" value="Matteo"></label><br>
-    <label>Cognome: <input type="text" id="cognome" value="Bovetti"></label><br>
-    <label>Indirizzo: <input type="text" id="indirizzo" value="Via cesare battisti 21"></label><br>
-    <label>Città: <input type="text" id="citta" value="Pero"></label><br>
+    <label>Nome: <input type="text" id="nome"></label><br>
+    <label>Cognome: <input type="text" id="cognome"></label><br>
+    <label>Indirizzo: <input type="text" id="indirizzo"></label><br>
+    <label>Città: <input type="text" id="citta"></label><br><br>
 
-    <!-- Sesso -->
-    <label>Sesso:</label>
-    <input type="radio" name="sesso" value="Maschio"> Maschio
-    <input type="radio" name="sesso" value="Femmina"> Femmina
-    <input type="radio" name="sesso" value="Altro"> Altro<br><br>
+    <strong>Sesso:</strong><br>
+    <label><input type="radio" id="maschio" name="sesso"> Maschio</label><br>
+    <label><input type="radio" id="femmina" name="sesso"> Femmina</label><br>
+    <label><input type="radio" id="altro" name="sesso"> Altro</label><br><br>
 
-    <!-- Diplomi -->
-    <label>Diplomi posseduti:</label>
-    <input type="checkbox" name="diploma" value="Licenza media"> Licenza media<br>
-    <input type="checkbox" name="diploma" value="Diploma superiore"> Diploma superiore<br>
-    <input type="checkbox" name="diploma" value="Laurea"> Laurea<br><br>
+    <strong>Diplomi posseduti:</strong><br>
+    <label><input type="checkbox" id="media"> Licenza Media</label><br>
+    <label><input type="checkbox" id="superiore"> Diploma Superiore</label><br>
+    <label><input type="checkbox" id="laurea"> Laurea</label><br>
+    <label><input type="checkbox" id="nessun_attestato"> Nessun attestato</label><br><br>
 
-    <!-- Provincia -->
-    <label for="provincia">Provincia:</label>
-    <select id="provincia" name="provincia">
-        <option value="">--Seleziona--</option>
-        <option value="MI">Milano</option>
-        <option value="TO">Torino</option>
-        <option value="RM">Roma</option>
-        <option value="NA">Napoli</option>
-        <option value="FI">Firenze</option>
-    </select><br><br>
+    <label><strong>Provincia:</strong>
+        <select id="provincia">
+            <option>MI</option><option>RM</option><option>NA</option>
+            <option>TO</option><option>PR</option><option>TA</option>
+            <option>FG</option><option>PG</option><option>AN</option>
+        </select>
+    </label><br><br>
 
-    <!-- Sport -->
-    <label for="sport">Sport praticati:</label>
-    <select id="sport" name="sport" multiple size="5">
-        <option value="Calcio">Calcio</option>
-        <option value="Basket">Basket</option>
-        <option value="Tennis">Tennis</option>
-        <option value="Nuoto">Nuoto</option>
-        <option value="Pallavolo">Pallavolo</option>
+    <strong>Sport praticati:</strong><br>
+    <select id="sport" multiple size="4">
+        <option>Calcio</option><option>Basket</option><option>Nuoto</option>
+        <option>Tennis</option><option>Pallavolo</option><option>Muay Thai</option>
+        <option>Scherma</option><option>Softball</option><option>Atletica leggera</option>
+        <option>Rugby</option><option>Boxe</option><option>Golf</option>
+        <option>Tiro a segno</option>
     </select><br><br>
 
     <button onclick="stampaDati()">Mostra tabella</button>
 
     <div id="risultato"></div>
 
+
     <script>
         function stampaDati() {
-            var nome = document.getElementById("nome").value;
-            var cognome = document.getElementById("cognome").value;
-            var indirizzo = document.getElementById("indirizzo").value;
-            var citta = document.getElementById("citta").value;
+            let nome = document.getElementById("nome").value;
+            let cognome = document.getElementById("cognome").value;
+            let indirizzo = document.getElementById("indirizzo").value;
+            let citta = document.getElementById("citta").value;
 
-       
-            var sessoSelezionato = document.querySelector('input[name="sesso"]:checked');
-            var sesso = sessoSelezionato ? sessoSelezionato.value : "Non specificato";
+            let sesso = "";
+            if (document.getElementById("maschio").checked) sesso = "Maschio";
+            if (document.getElementById("femmina").checked) sesso = "Femmina";
+            if (document.getElementById("altro").checked) sesso = "Altro";
 
-            var diplomiSelezionati = [];
-            document.querySelectorAll('input[name="diploma"]:checked').forEach(function(checkbox) {
-                diplomiSelezionati.push(checkbox.value);
-            });
-            var diplomi = diplomiSelezionati.length > 0 ? diplomiSelezionati.join(", ") : "Nessuno";
+            let diplomi = "";
+            if (document.getElementById("media").checked) diplomi += "Licenza Media ";
+            if (document.getElementById("superiore").checked) diplomi += "Diploma Superiore ";
+            if (document.getElementById("laurea").checked) diplomi += "Laurea ";
+            if (document.getElementById("nessun_attestato").checked) diplomi = "Nessun attestato";
 
-       
-            var provincia = document.getElementById("provincia").value;
-            if (provincia === "") {
-                provincia = "Non specificata";
-            }
+            let provincia = document.getElementById("provincia").value;
 
-           
-            var sportElement = document.getElementById("sport");
-            var sportSelezionatiArray = [];
-            for (var i = 0; i < sportElement.options.length; i++) {
-                if (sportElement.options[i].selected) {
-                    sportSelezionatiArray.push(sportElement.options[i].value);
+            let sportSelezionati = document.getElementById("sport");
+            let sport = "";
+            for (let i = 0; i < sportSelezionati.options.length; i++) {
+                if (sportSelezionati.options[i].selected) {
+                    sport += sportSelezionati.options[i].value + " ";
                 }
             }
-            var sport = sportSelezionatiArray.length > 0 ? sportSelezionatiArray.join(", ") : "Nessuno";
 
-            var tabella = "<table>";
+            let tabella = "<table>";
             tabella += "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th><th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>";
             tabella += "<tr>";
             tabella += "<td>" + nome + "</td>";
@@ -149,5 +110,6 @@
             document.getElementById("risultato").innerHTML = tabella;
         }
     </script>
+
 </body>
 </html>
