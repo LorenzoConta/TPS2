@@ -27,39 +27,43 @@
 <body>
     <h2>Inserisci i tuoi dati</h2>
 
-    <!-- Dati base -->
-    <label>Nome: <input type="text" id="nome" value="Lorenzo"></label><br>
-    <label>Cognome: <input type="text" id="cognome" value="Conta"></label><br>
-    <label>Indirizzo: <input type="text" id="indirizzo" value="Via Fabio Filzi 11"></label><br>
-    <label>Città: <input type="text" id="citta" value="Pregnana Milanese"></label><br><br>
+    <label>Nome: <input type="text" id="nome"></label><br>
+    <label>Cognome: <input type="text" id="cognome"></label><br>
+    <label>Indirizzo: <input type="text" id="indirizzo"></label><br>
+    <label>Città: <input type="text" id="citta"></label><br><br>
 
-    <!-- Sesso -->
     <strong>Sesso:</strong><br>
     <label><input type="radio" name="sesso" id="maschio"> Maschio</label><br>
     <label><input type="radio" name="sesso" id="femmina"> Femmina</label><br>
     <label><input type="radio" name="sesso" id="altro"> Altro</label><br><br>
 
-    <!-- Diplomi -->
     <strong>Diplomi:</strong><br>
     <label><input type="checkbox" id="media"> Licenza Media</label><br>
     <label><input type="checkbox" id="superiore"> Diploma Superiore</label><br>
     <label><input type="checkbox" id="laurea"> Laurea</label><br>
     <label><input type="checkbox" id="nessuno"> Nessun attestato</label><br><br>
 
-    <!-- Provincia -->
     <label><strong>Provincia:</strong>
         <select id="provincia">
-            <option>MI</option><option>RM</option><option>NA</option>
-            <option>TO</option><option>BG</option><option>BS</option>
+            <option>MI</option>
+            <option>RM</option>
+            <option>NA</option>
+            <option>TO</option>
+            <option>BG</option>
+            <option>BS</option>
         </select>
     </label><br><br>
 
-    <!-- Sport -->
     <strong>Sport praticati:</strong><br>
     <select id="sport" multiple size="4">
-        <option>Calcio</option><option>Basket</option><option>Nuoto</option>
-        <option>Pallavolo</option><option>Boxe</option><option>Rugby</option>
-        <option>Atletica</option><option>Tennis</option>
+        <option>Calcio</option>
+        <option>Basket</option>
+        <option>Nuoto</option>
+        <option>Pallavolo</option>
+        <option>Boxe</option>
+        <option>Rugby</option>
+        <option>Atletica</option>
+        <option>Tennis</option>
     </select><br><br>
 
     <button onclick="stampaDati()">Mostra tabella</button>
