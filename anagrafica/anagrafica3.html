@@ -22,16 +22,6 @@
   </style>
   <script>
 
-    const anagrafica ={
-      nome: "",
-      cognome: "",
-      indirizzo: "",
-      citta: "",
-      sesso: "",
-      diplomi: [],
-      provincia: "",
-      sport: []
-    }
     function stampa() {
       let nome = document.getElementById("nome").value;
       let cognome = document.getElementById("cognome").value;
@@ -78,24 +68,25 @@
   </script>
 </head>
 
+<body>
 
   <h2>Anagrafica 3.0 ==> <a href="https://github.com/LorenzoConta/TPS2">Go Back</a></h2>
-  <input type="text" id="nome" placeholder="Nome"><br>
-  <input type="text" id="cognome" placeholder="Cognome"><br>
-  <input type="text" id="indirizzo" placeholder="Indirizzo"><br>
-  <input type="text" id="citta" placeholder="Città"><br>
+  <input type="text" id="nome" placeholder="Nome" value="Lorenzo"><br>
+  <input type="text" id="cognome" placeholder="Cognome" value="Conta"><br>
+  <input type="text" id="indirizzo" placeholder="Indirizzo" value="Via Fabio Filzi 11"><br>
+  <input type="text" id="citta" placeholder="Città" value="Pregnana Milanese"><br>
 
-  <input name="sesso" type="radio" id="maschio" placeholder="maschio">Maschio<br>
-  <input name="sesso" type="radio" id="femmina" placeholder="femmina">Femmina<br>
+  <input name="sesso" type="radio" id="maschio" checked>Maschio<br>
+  <input name="sesso" type="radio" id="femmina">Femmina<br>
 
   <label>Diplomi posseduti:</label><br>
   <input type="checkbox" name="diploma" value="Licenza Media"> Licenza Media<br>
-  <input type="checkbox" name="diploma" value="Diploma Superiore"> Diploma Superiore<br>
+  <input type="checkbox" name="diploma" value="Diploma Superiore" checked> Diploma Superiore<br>
   <input type="checkbox" name="diploma" value="Laurea"> Laurea<br><br>
 
   <label>Provincia:</label><br>
   <select id="provincia">
-    <option value="MI">Milano (MI)</option>
+    <option value="MI" selected>Milano (MI)</option>
     <option value="TO">Torino (TO)</option>
     <option value="RM">Roma (RM)</option>
     <option value="NA">Napoli (NA)</option>
@@ -104,10 +95,10 @@
   <label>Sport praticati:</label><br>
   <select id="sport" multiple size="4">
     <option value="Calcio">Calcio</option>
-    <option value="Basket">Basket</option>
+    <option value="Basket" selected>Basket</option>
     <option value="Nuoto">Nuoto</option>
     <option value="Tennis">Tennis</option>
-    <option value="Palestra">Palestra</option>
+    <option value="Palestra" selected>Palestra</option>
     <option value="Golf">Golf</option>
     <option value="Cricket">Cricket</option>
     <option value="Pallanuoto">Pallanuoto</option>
@@ -119,11 +110,6 @@
   <div id="2"></div>
   <div id="3"></div>
 
-
-
-
-
 </body>
-
 
 </html>
