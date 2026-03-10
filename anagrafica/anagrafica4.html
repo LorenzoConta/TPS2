@@ -1,112 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Anagrafica 4.0</title>
+<title>Anagrafica 4.0</title>
 
-  <style>
-        body {
-            background: linear-gradient(135deg, #1abc9c, #3498db);
-            font-family: Arial, sans-serif;
-            color: #1f2d3d;
-            padding: 20px;
-        }
+<style>
+body {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  font-family: Arial, sans-serif;
+  color: #2c3e50;
+  padding: 30px;
+}
 
-        h1 {
-            color: white;
-            text-shadow: 1px 1px 2px black;
-        }
+input[type="text"],
+input[type="number"] {
+  padding: 6px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  width: 200px;
+}
 
-        table {
-            background: white;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
+input[type="button"] {
+  padding: 8px 15px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-        th {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-        }
+input[type="button"]:hover {
+  background-color: #1e8449;
+}
 
-        td {
-            background-color: #f7f9fa;
-            color: #2c3e50;
-        }
+table {
+  background: white;
+  border-radius: 8px;
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 80%;
+}
 
-        tr:nth-child(even) td {
-            background-color: #eaf2f8;
-        }
-    </style>
+th {
+  background-color: #27ae60;
+  color: white;
+  padding: 8px;
+}
+
+td {
+  padding: 8px;
+  text-align: center;
+}
+</style>
+
 </head>
 
 <body>
 
-   <input type="text" id="nome" >
-  Nome  <br>
-  <input type="text" id="cognome" >
-  cognome  <br>
-  <input type="number" id="eta" >
-  eta  <br>
-   <input type="text" id="citta" >
-  citta  <br>
-<input type="text" id="provincia">
-  provincia  <br>
-   <input type="text" id="nazione">
-  nazione  <br>
- 
-  <input type="button" value="inserisci" onclick="ana()">
+<input type="text" id="nome"> Nome<br>
+<input type="text" id="cognome"> Cognome<br>
+<input type="number" id="eta"> Eta<br>
+<input type="text" id="citta"> Citta<br>
+<input type="text" id="provincia"> Provincia<br>
+<input type="text" id="nazione"> Nazione<br>
 
-  <script>
-    let elementi = [];
-    function ana() {
-      let nome = document.getElementById("nome").value;
-      let cognome = document.getElementById("cognome").value;
-      let eta = document.getElementById("eta").value;
-      let citta = document.getElementById("citta").value;
-      let provincia = document.getElementById("provincia").value;
-      let nazione = document.getElementById("nazione").value;
- 
-      const persone = {};
-      persone.nome = nome;
-      persone.cognome = cognome;
-      persone.eta = eta;
-      persone.citta = citta;
-      persone.provincia = provincia;
-      persone.nazione = nazione;
-     
-      elementi.push(persone);
-      localStorage.setItem("elenco", JSON.stringify(elementi));
-    }
-  </script>
+<input type="button" value="inserisci" onclick="ana()">
 
-   <table border="1">
-    <tr>
-      <th>Nome</th>
-      <th>Cognome</th>
-      <th>Età</th>
-      <th>Città</th>
-      <th>Provincia</th>
-      <th>Nazione</th>
-    </tr>
-    <tbody id="cont"></tbody>
-  </table>
+<script>
 
-  <script>
-    let cont = document.getElementById("cont");
-    let s = JSON.parse(localStorage.getItem("elenco"));
+let elementi = JSON.parse(localStorage.getItem("elenco"));
 
-    for (let i = 0; i < s.length; i++) {
-      let tr = document.createElement("tr");
+if (elementi === null) {
+  elementi = [];
+}
 
-      tr.innerHTML =
-        "<td>" + s[i].nome + "</td>" +
-        "<td>" + s[i].cognome + "</td>" +
-        "<td>" + s[i].eta + "</td>" +
-        "<td>" + s[i].citta + "</td>" +
-        "<td>" + s[i].provincia + "</td>" +
-        "<td>" + s[i].nazione + "</td>";
-      cont.appendChild(tr); 
-    }
-  </script>
+function ana() {
+
+let nome = document.getElementById("nome").value;
+let cognome = document.getElementById("cognome").value;
+let eta = document.getElementById("eta").value;
+let citta = document.getElementById("citta").value;
+let provincia = document.getElementById("provincia").value;
+let nazione = document.getElementById("nazione").value;
+
+const persone = {};
+
+persone.nome = nome;
+persone.cognome = cognome;
+persone.eta = eta;
+persone.citta = citta;
+persone.provincia = provincia;
+persone.nazione = nazione;
+
+elementi.push(persone);
+
+localStorage.setItem("elenco", JSON.stringify(elementi));
+
+let tr = document.createElement("tr");
+
+tr.innerHTML =
+"<td>"+nome+"</td>"+
+"<td>"+cognome+"</td>"+
+"<td>"+eta+"</td>"+
+"<td>"+citta+"</td>"+
+"<td>"+provincia+"</td>"+
+"<td>"+nazione+"</td>";
+
+document.getElementById("cont").appendChild(tr);
+
+}
+
+</script>
+
+<table border="1">
+
+<tr>
+<th>Nome</th>
+<th>Cognome</th>
+<th>Età</th>
+<th>Città</th>
+<th>Provincia</th>
+<th>Nazione</th>
+</tr>
+
+<tbody id="cont"></tbody>
+
+</table>
+
+<script>
+
+let cont = document.getElementById("cont");
+
+let s = JSON.parse(localStorage.getItem("elenco"));
+
+if (s !== null){
+
+for(let i=0;i<s.length;i++){
+
+let tr = document.createElement("tr");
+
+tr.innerHTML =
+"<td>"+s[i].nome+"</td>"+
+"<td>"+s[i].cognome+"</td>"+
+"<td>"+s[i].eta+"</td>"+
+"<td>"+s[i].citta+"</td>"+
+"<td>"+s[i].provincia+"</td>"+
+"<td>"+s[i].nazione+"</td>";
+
+cont.appendChild(tr);
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
