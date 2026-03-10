@@ -26,26 +26,32 @@ Telefono: <input type="text" id="telefono"><br><br>
 <div id="tabella"></div>
 
 <script>
-let collection = JSON.parse(localStorage.getItem("collection")) || []; // <-- CORRETTO
+
+let collection;
+
+try {
+    collection = JSON.parse(localStorage.getItem("collection")) || [];
+} catch(e) {
+    collection = [];
+}
 
 function salva() {
 
     const dati = {
-        nome: document.getElementById("nome").value,
-        cognome: document.getElementById("cognome").value,
-        eta: document.getElementById("eta").value,
-        citta: document.getElementById("citta").value,
-        provincia: document.getElementById("provincia").value,
-        cap: document.getElementById("cap").value,
-        nazione: document.getElementById("nazione").value,
-        email: document.getElementById("email").value,
-        telefono: document.getElementById("telefono").value
+        nome: document.getElementById("nome").value.trim(),
+        cognome: document.getElementById("cognome").value.trim(),
+        eta: document.getElementById("eta").value.trim(),
+        citta: document.getElementById("citta").value.trim(),
+        provincia: document.getElementById("provincia").value.trim(),
+        cap: document.getElementById("cap").value.trim(),
+        nazione: document.getElementById("nazione").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        telefono: document.getElementById("telefono").value.trim()
     };
 
-    const regNome = /^[A-Za-z]+$/;
-    const regCognome = /^[A-Za-z]+$/;
+    const regNome = /^[A-Za-zÀ-ÿ\s]+$/;
     const regCap = /^[0-9]{5}$/;
-    const regCitta = /^[A-Za-z\s]+$/;
+    const regCitta = /^[A-Za-zÀ-ÿ\s]+$/;
     const regMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const regTel = /^[0-9]{8,15}$/;
 
@@ -54,18 +60,18 @@ function salva() {
         return;
     }
 
-    if (!regCognome.test(dati.cognome)) {
+    if (!regNome.test(dati.cognome)) {
         alert("Cognome non valido");
-        return;
-    }
-
-    if (!regCap.test(dati.cap)) {
-        alert("CAP non valido");
         return;
     }
 
     if (!regCitta.test(dati.citta)) {
         alert("Città non valida");
+        return;
+    }
+
+    if (!regCap.test(dati.cap)) {
+        alert("CAP non valido");
         return;
     }
 
@@ -80,6 +86,7 @@ function salva() {
     }
 
     collection.push(dati);
+
     localStorage.setItem("collection", JSON.stringify(collection));
 
     aggiornaTabella();
@@ -89,50 +96,66 @@ function salva() {
 function aggiornaTabella() {
 
     if (collection.length === 0) {
-        document.getElementById("tabella").innerHTML = "<p>Nessun dato salvato.</p>";
+        document.getElementById("tabella").innerHTML = "Nessun dato salvato";
         return;
     }
 
-    let tab = "<table border='1' cellpadding='5'><tr>" +
-        "<th>Nome</th><th>Cognome</th><th>Età</th><th>Città</th><th>Provincia</th><th>CAP</th><th>Nazione</th><th>Email</th><th>Telefono</th></tr>";
+    let tab = "<table border='1'><tr>" +
+    "<th>Nome</th>" +
+    "<th>Cognome</th>" +
+    "<th>Età</th>" +
+    "<th>Città</th>" +
+    "<th>Provincia</th>" +
+    "<th>CAP</th>" +
+    "<th>Nazione</th>" +
+    "<th>Email</th>" +
+    "<th>Telefono</th>" +
+    "</tr>";
 
     for (let i = 0; i < collection.length; i++) {
-        const r = collection[i];
-        tab += "<tr><td>" + r.nome +
-            "</td><td>" + r.cognome +
-            "</td><td>" + r.eta +
-            "</td><td>" + r.citta +
-            "</td><td>" + r.provincia +
-            "</td><td>" + r.cap +
-            "</td><td>" + r.nazione +
-            "</td><td>" + r.email +
-            "</td><td>" + r.telefono +
-            "</td></tr>";
+
+        let r = collection[i];
+
+        tab += "<tr>" +
+        "<td>"+r.nome+"</td>" +
+        "<td>"+r.cognome+"</td>" +
+        "<td>"+r.eta+"</td>" +
+        "<td>"+r.citta+"</td>" +
+        "<td>"+r.provincia+"</td>" +
+        "<td>"+r.cap+"</td>" +
+        "<td>"+r.nazione+"</td>" +
+        "<td>"+r.email+"</td>" +
+        "<td>"+r.telefono+"</td>" +
+        "</tr>";
     }
 
     tab += "</table>";
+
     document.getElementById("tabella").innerHTML = tab;
 }
 
 function pulisciCampi() {
-    document.getElementById("nome").value = "";
-    document.getElementById("cognome").value = "";
-    document.getElementById("eta").value = "";
-    document.getElementById("citta").value = "";
-    document.getElementById("provincia").value = "";
-    document.getElementById("cap").value = "";
-    document.getElementById("nazione").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("telefono").value = "";
+
+    document.getElementById("nome").value="";
+    document.getElementById("cognome").value="";
+    document.getElementById("eta").value="";
+    document.getElementById("citta").value="";
+    document.getElementById("provincia").value="";
+    document.getElementById("cap").value="";
+    document.getElementById("nazione").value="";
+    document.getElementById("email").value="";
+    document.getElementById("telefono").value="";
 }
 
 function resetta() {
+
     localStorage.removeItem("collection");
-    collection = [];
+    collection=[];
     aggiornaTabella();
 }
 
 aggiornaTabella();
+
 </script>
 
 </body>
