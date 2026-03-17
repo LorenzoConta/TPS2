@@ -1,162 +1,160 @@
 <!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<title>Anagrafica 5.0</title>
-</head>
+<html><head>
+  <title>Anagrafica5</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      font-family: Arial, sans-serif;
+      color: #333;
+      padding: 30px;
+    }
 
+    input[type="text"],
+    input[type="number"] {
+      padding: 6px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      width: 200px;
+    }
+
+    input[type="button"] {
+      padding: 8px 15px;
+      background-color: #6a5acd;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    table {
+      background: white;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    th {
+      background-color: #6a5acd;
+      color: white;
+      padding: 8px;
+    }
+
+    td {
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+<style type="text/css" id="operaUserStyle"></style><style type="text/css"></style></head>
 <body>
 
-<h3>Inserisci i tuoi dati</h3>
+  <input type="text" id="nome"> Nome<br>
+  <input type="text" id="cognome"> Cognome<br>
+  <input type="number" id="eta"> Età<br>
+  <input type="text" id="citta"> Città<br>
+  <input type="text" id="provincia"> Provincia<br>
+  <input type="text" id="nazione"> Nazione<br>
 
-Nome: <input type="text" id="nome"><br><br>
-Cognome: <input type="text" id="cognome"><br><br>
-Età: <input type="number" id="eta"><br><br>
-Città: <input type="text" id="citta"><br><br>
-Provincia: <input type="text" id="provincia"><br><br>
-CAP: <input type="text" id="cap"><br><br>
-Nazione: <input type="text" id="nazione"><br><br>
-Email: <input type="text" id="email"><br><br>
-Telefono: <input type="text" id="telefono"><br><br>
+  <input type="button" value="inserisci" onclick="ana()">
 
-<input type="button" value="Salva Dati" onclick="salva()">
-<input type="button" value="Azzera Dati" onclick="resetta()">
+  <script>
+    let elementi = JSON.parse(localStorage.getItem("elenco"));
+    if (elementi === null) {
+      elementi = [];
+    }
 
-<h3>Dati Salvati</h3>
-<div id="tabella"></div>
+    
+    const regexNome = /^[a-zA-Z]+$/;
+    const regexCognome = /^[a-zA-Z]+$/;
+    const regexEta = /^(?:1[01][0-9]|120|[0-9]{1,2})$/;
+    const regexCitta = /^[a-zA-Z ]+$/;
+    const regexProvincia = /^[A-Z]{2}$/;
+    const regexNazione = /^[a-zA-Z ]+$/;
 
-<script>
+    function aggiungiRiga(persone) {
+      let tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + persone.nome + "</td>" +
+        "<td>" + persone.cognome + "</td>" +
+        "<td>" + persone.eta + "</td>" +
+        "<td>" + persone.citta + "</td>" +
+        "<td>" + persone.provincia + "</td>" +
+        "<td>" + persone.nazione + "</td>";
+      document.getElementById("cont").appendChild(tr);
+    }
 
-let collection;
+    function ana() {
+      let nome = document.getElementById("nome").value.trim();
+      let cognome = document.getElementById("cognome").value.trim();
+      let eta = document.getElementById("eta").value.trim();
+      let citta = document.getElementById("citta").value.trim();
+      let provincia = document.getElementById("provincia").value.trim();
+      let nazione = document.getElementById("nazione").value.trim();
 
-try {
-    collection = JSON.parse(localStorage.getItem("collection")) || [];
-} catch(e) {
-    collection = [];
-}
-
-function salva() {
-
-    const dati = {
-        nome: document.getElementById("nome").value.trim(),
-        cognome: document.getElementById("cognome").value.trim(),
-        eta: document.getElementById("eta").value.trim(),
-        citta: document.getElementById("citta").value.trim(),
-        provincia: document.getElementById("provincia").value.trim(),
-        cap: document.getElementById("cap").value.trim(),
-        nazione: document.getElementById("nazione").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        telefono: document.getElementById("telefono").value.trim()
-    };
-
-    const regNome = /^[A-Za-zÀ-ÿ\s]+$/;
-    const regCap = /^[0-9]{5}$/;
-    const regCitta = /^[A-Za-zÀ-ÿ\s]+$/;
-    const regMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regTel = /^[0-9]{8,15}$/;
-
-    if (!regNome.test(dati.nome)) {
-        alert("Nome non valido");
+      if (!regexNome.test(nome)) {
+        alert("Nome non valido!");
         return;
-    }
-
-    if (!regNome.test(dati.cognome)) {
-        alert("Cognome non valido");
+      }
+      if (!regexCognome.test(cognome)) {
+        alert("Cognome non valido!");
         return;
-    }
-
-    if (!regCitta.test(dati.citta)) {
-        alert("Città non valida");
+      }
+      if (!regexEta.test(eta)) {
+        alert("Età non valida!");
         return;
-    }
-
-    if (!regCap.test(dati.cap)) {
-        alert("CAP non valido");
+      }
+      if (!regexCitta.test(citta)) {
+        alert("Città non valida!");
         return;
-    }
-
-    if (!regMail.test(dati.email)) {
-        alert("Email non valida");
+      }
+      if (!regexProvincia.test(provincia)) {
+        alert("Provincia non valida!");
         return;
-    }
-
-    if (!regTel.test(dati.telefono)) {
-        alert("Telefono non valido");
+      }
+      if (!regexNazione.test(nazione)) {
+        alert("Nazione non valida!");
         return;
+      }
+
+      const persone = { nome, cognome, eta, citta, provincia, nazione };
+      elementi.push(persone);
+      localStorage.setItem("elenco", JSON.stringify(elementi));
+      aggiungiRiga(persone);
     }
 
-    collection.push(dati);
+    
+  </script>
 
-    localStorage.setItem("collection", JSON.stringify(collection));
+  <table border="1">
+    <tbody><tr>
+      <th>Nome</th>
+      <th>Cognome</th>
+      <th>Età</th>
+      <th>Città</th>
+      <th>Provincia</th>
+      <th>Nazione</th>
+    </tr>
+    </tbody><tbody id="cont"></tbody>
+  </table>
 
-    aggiornaTabella();
-    pulisciCampi();
-}
-
-function aggiornaTabella() {
-
-    if (collection.length === 0) {
-        document.getElementById("tabella").innerHTML = "Nessun dato salvato";
-        return;
+  <script>
+    let cont = document.getElementById("cont");
+    let s = JSON.parse(localStorage.getItem("elenco"));
+    if (s !== null) {
+      for (let i = 0; i < s.length; i++) {
+        aggiungiRiga(s[i]);
+      }
     }
 
-    let tab = "<table border='1'><tr>" +
-    "<th>Nome</th>" +
-    "<th>Cognome</th>" +
-    "<th>Età</th>" +
-    "<th>Città</th>" +
-    "<th>Provincia</th>" +
-    "<th>CAP</th>" +
-    "<th>Nazione</th>" +
-    "<th>Email</th>" +
-    "<th>Telefono</th>" +
-    "</tr>";
 
-    for (let i = 0; i < collection.length; i++) {
+    window.addEventListener("beforeunload", function() {
+      localStorage.removeItem("elenco");
+    });
+  </script>
 
-        let r = collection[i];
 
-        tab += "<tr>" +
-        "<td>"+r.nome+"</td>" +
-        "<td>"+r.cognome+"</td>" +
-        "<td>"+r.eta+"</td>" +
-        "<td>"+r.citta+"</td>" +
-        "<td>"+r.provincia+"</td>" +
-        "<td>"+r.cap+"</td>" +
-        "<td>"+r.nazione+"</td>" +
-        "<td>"+r.email+"</td>" +
-        "<td>"+r.telefono+"</td>" +
-        "</tr>";
-    }
 
-    tab += "</table>";
+</body></html>
 
-    document.getElementById("tabella").innerHTML = tab;
-}
-
-function pulisciCampi() {
-
-    document.getElementById("nome").value="";
-    document.getElementById("cognome").value="";
-    document.getElementById("eta").value="";
-    document.getElementById("citta").value="";
-    document.getElementById("provincia").value="";
-    document.getElementById("cap").value="";
-    document.getElementById("nazione").value="";
-    document.getElementById("email").value="";
-    document.getElementById("telefono").value="";
-}
-
-function resetta() {
-
-    localStorage.removeItem("collection");
-    collection=[];
-    aggiornaTabella();
-}
-
-aggiornaTabella();
-
-</script>
-
-</body>
-</html>
