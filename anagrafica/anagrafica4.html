@@ -48,6 +48,10 @@
       padding: 8px;
       text-align: center;
     }
+
+    table, th, td {
+      border: 1px solid black;
+    }
   </style>
 </head>
 
@@ -62,11 +66,27 @@
 
   <input type="button" value="Inserisci" onclick="ana()">
 
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Età</th>
+        <th>Città</th>
+        <th>Provincia</th>
+        <th>Nazione</th>
+      </tr>
+    </thead>
+    <tbody id="cont"></tbody>
+  </table>
+
   <script>
     let elementi = JSON.parse(localStorage.getItem("elenco"));
     if (elementi === null) {
       elementi = [];
     }
+
+    let cont = document.getElementById("cont");
 
     function ana() {
       let nome = document.getElementById("nome").value;
@@ -88,49 +108,29 @@
       elementi.push(persone);
       localStorage.setItem("elenco", JSON.stringify(elementi));
 
+      aggiungiRiga(persone);
+    }
+
+    function aggiungiRiga(p) {
       let tr = document.createElement("tr");
 
       tr.innerHTML =
-        "<td>" + nome + "</td>" +
-        "<td>" + cognome + "</td>" +
-        "<td>" + eta + "</td>" +
-        "<td>" + citta + "</td>" +
-        "<td>" + provincia + "</td>" +
-        "<td>" + nazione + "</td>";
+        "<td>" + p.nome + "</td>" +
+        "<td>" + p.cognome + "</td>" +
+        "<td>" + p.eta + "</td>" +
+        "<td>" + p.citta + "</td>" +
+        "<td>" + p.provincia + "</td>" +
+        "<td>" + p.nazione + "</td>";
 
-      document.getElementById("cont").appendChild(tr);
+      cont.appendChild(tr);
     }
-  </script>
 
-  <table border="1">
-    <tr>
-      <th>Nome</th>
-      <th>Cognome</th>
-      <th>Età</th>
-      <th>Città</th>
-      <th>Provincia</th>
-      <th>Nazione</th>
-    </tr>
-    <tbody id="cont"></tbody>
-  </table>
-
-  <script>
-    let cont = document.getElementById("cont");
+    // Carica dati salvati
     let s = JSON.parse(localStorage.getItem("elenco"));
 
     if (s !== null) {
       for (let i = 0; i < s.length; i++) {
-        let tr = document.createElement("tr");
-
-        tr.innerHTML =
-          "<td>" + s[i].nome + "</td>" +
-          "<td>" + s[i].cognome + "</td>" +
-          "<td>" + s[i].eta + "</td>" +
-          "<td>" + s[i].citta + "</td>" +
-          "<td>" + s[i].provincia + "</td>" +
-          "<td>" + s[i].nazione + "</td>";
-
-        cont.appendChild(tr);
+        aggiungiRiga(s[i]);
       }
     }
   </script>
