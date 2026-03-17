@@ -1,160 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Anagrafica 4.0</title>
+  <title>Anagrafica 4.0</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+      font-family: Arial, sans-serif;
+      color: white;
+      padding: 30px;
+    }
 
-<style>
-body {
-  background: linear-gradient(135deg, #56ab2f, #a8e063);
-  font-family: Arial, sans-serif;
-  color: #2c3e50;
-  padding: 30px;
-}
+    input[type="text"],
+    input[type="number"] {
+      padding: 6px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      width: 200px;
+    }
 
-input[type="text"],
-input[type="number"] {
-  padding: 6px;
-  margin-bottom: 8px;
-  border-radius: 5px;
-  border: 1px solid #aaa;
-  width: 200px;
-}
+    input[type="button"] {
+      padding: 8px 15px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-input[type="button"] {
-  padding: 8px 15px;
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-}
+    table {
+      background: white;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 80%;
+      color: black;
+    }
 
-input[type="button"]:hover {
-  background-color: #1e8449;
-}
+    th {
+      background-color: #ff6b6b;
+      color: white;
+      padding: 8px;
+    }
 
-table {
-  background: white;
-  border-radius: 8px;
-  margin-top: 20px;
-  border-collapse: collapse;
-  width: 80%;
-}
-
-th {
-  background-color: #27ae60;
-  color: white;
-  padding: 8px;
-}
-
-td {
-  padding: 8px;
-  text-align: center;
-}
-</style>
-
+    td {
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-<input type="text" id="nome"> Nome<br>
-<input type="text" id="cognome"> Cognome<br>
-<input type="number" id="eta"> Eta<br>
-<input type="text" id="citta"> Citta<br>
-<input type="text" id="provincia"> Provincia<br>
-<input type="text" id="nazione"> Nazione<br>
+  <input type="text" id="nome"> Nome<br>
+  <input type="text" id="cognome"> Cognome<br>
+  <input type="number" id="eta"> Età<br>
+  <input type="text" id="citta"> Città<br>
+  <input type="text" id="provincia"> Provincia<br>
+  <input type="text" id="nazione"> Nazione<br>
 
-<input type="button" value="inserisci" onclick="ana()">
+  <input type="button" value="Inserisci" onclick="ana()">
 
-<script>
+  <script>
+    let elementi = JSON.parse(localStorage.getItem("elenco"));
+    if (elementi === null) {
+      elementi = [];
+    }
 
-let elementi = JSON.parse(localStorage.getItem("elenco"));
+    function ana() {
+      let nome = document.getElementById("nome").value;
+      let cognome = document.getElementById("cognome").value;
+      let eta = document.getElementById("eta").value;
+      let citta = document.getElementById("citta").value;
+      let provincia = document.getElementById("provincia").value;
+      let nazione = document.getElementById("nazione").value;
 
-if (elementi === null) {
-  elementi = [];
-}
+      const persone = {
+        nome: nome,
+        cognome: cognome,
+        eta: eta,
+        citta: citta,
+        provincia: provincia,
+        nazione: nazione
+      };
 
-function ana() {
+      elementi.push(persone);
+      localStorage.setItem("elenco", JSON.stringify(elementi));
 
-let nome = document.getElementById("nome").value;
-let cognome = document.getElementById("cognome").value;
-let eta = document.getElementById("eta").value;
-let citta = document.getElementById("citta").value;
-let provincia = document.getElementById("provincia").value;
-let nazione = document.getElementById("nazione").value;
+      let tr = document.createElement("tr");
 
-const persone = {};
+      tr.innerHTML =
+        "<td>" + nome + "</td>" +
+        "<td>" + cognome + "</td>" +
+        "<td>" + eta + "</td>" +
+        "<td>" + citta + "</td>" +
+        "<td>" + provincia + "</td>" +
+        "<td>" + nazione + "</td>";
 
-persone.nome = nome;
-persone.cognome = cognome;
-persone.eta = eta;
-persone.citta = citta;
-persone.provincia = provincia;
-persone.nazione = nazione;
+      document.getElementById("cont").appendChild(tr);
+    }
+  </script>
 
-elementi.push(persone);
+  <table border="1">
+    <tr>
+      <th>Nome</th>
+      <th>Cognome</th>
+      <th>Età</th>
+      <th>Città</th>
+      <th>Provincia</th>
+      <th>Nazione</th>
+    </tr>
+    <tbody id="cont"></tbody>
+  </table>
 
-localStorage.setItem("elenco", JSON.stringify(elementi));
+  <script>
+    let cont = document.getElementById("cont");
+    let s = JSON.parse(localStorage.getItem("elenco"));
 
-let tr = document.createElement("tr");
+    if (s !== null) {
+      for (let i = 0; i < s.length; i++) {
+        let tr = document.createElement("tr");
 
-tr.innerHTML =
-"<td>"+nome+"</td>"+
-"<td>"+cognome+"</td>"+
-"<td>"+eta+"</td>"+
-"<td>"+citta+"</td>"+
-"<td>"+provincia+"</td>"+
-"<td>"+nazione+"</td>";
+        tr.innerHTML =
+          "<td>" + s[i].nome + "</td>" +
+          "<td>" + s[i].cognome + "</td>" +
+          "<td>" + s[i].eta + "</td>" +
+          "<td>" + s[i].citta + "</td>" +
+          "<td>" + s[i].provincia + "</td>" +
+          "<td>" + s[i].nazione + "</td>";
 
-document.getElementById("cont").appendChild(tr);
-
-}
-
-</script>
-
-<table border="1">
-
-<tr>
-<th>Nome</th>
-<th>Cognome</th>
-<th>Età</th>
-<th>Città</th>
-<th>Provincia</th>
-<th>Nazione</th>
-</tr>
-
-<tbody id="cont"></tbody>
-
-</table>
-
-<script>
-
-let cont = document.getElementById("cont");
-
-let s = JSON.parse(localStorage.getItem("elenco"));
-
-if (s !== null){
-
-for(let i=0;i<s.length;i++){
-
-let tr = document.createElement("tr");
-
-tr.innerHTML =
-"<td>"+s[i].nome+"</td>"+
-"<td>"+s[i].cognome+"</td>"+
-"<td>"+s[i].eta+"</td>"+
-"<td>"+s[i].citta+"</td>"+
-"<td>"+s[i].provincia+"</td>"+
-"<td>"+s[i].nazione+"</td>";
-
-cont.appendChild(tr);
-
-}
-
-}
-
-</script>
+        cont.appendChild(tr);
+      }
+    }
+  </script>
 
 </body>
 </html>
