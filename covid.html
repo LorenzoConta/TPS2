@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Italia</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #24558a;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .tabella {
+            overflow: auto;
+            max-height: 75vh;
+            background-color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #24558a;
+            color: white;
+            padding: 10px;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #eeeeee;
+        }
+
+        tr:hover {
+            background-color: #dce8f5;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>COVID-19 Italia</h1>
+
+    <p>Rilevazioni nazionali della Protezione Civile</p>
+
+    <p id="stato">Caricamento dei dati...</p>
+
+    <div class="tabella">
+        <table id="tabella">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+
+        const url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
+
+        const tabella = document.getElementById("tabella");
+        const stato = document.getElementById("stato");
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                const dati = JSON.parse(xhr.responseText);
+
+                if (!Array.isArray(dati) || dati.length == 0) {
+                    stato.textContent = "Nessun dato disponibile";
+                    return;
+                }
+
+                const chiavi = Object.keys(dati[0]);
+
+                console.log(chiavi);
+
+                const intestazione = tabella.querySelector("thead");
+                const corpo = tabella.querySelector("tbody");
+
+                const rigaTitoli = document.createElement("tr");
+
+                for (let i = 0; i < chiavi.length; i++) {
+
+                    const th = document.createElement("th");
+
+                    th.textContent = chiavi[i];
+
+                    rigaTitoli.appendChild(th);
+                }
+
+                intestazione.appendChild(rigaTitoli);
+
+                for (let i = 0; i < dati.length; i++) {
+
+                    const riga = document.createElement("tr");
+
+                    for (let j = 0; j < chiavi.length; j++) {
+
+                        const td = document.createElement("td");
+
+                        let valore = dati[i][chiavi[j]];
+
+                        if (valore == null) {
+                            td.textContent = "";
+                        }
+
+                        else if (chiavi[j] == "data") {
+
+                            const data = String(valore).substring(0, 10);
+
+                            const parti = data.split("-");
+
+                            td.textContent = parti.length == 3
+                                ? parti[2] + "/" + parti[1] + "/" + parti[0]
+                                : data;
+                        }
+
+                        else {
+                            td.textContent = valore;
+                        }
+
+                        riga.appendChild(td);
+                    }
+
+                    corpo.appendChild(riga);
+                }
+
+                stato.textContent = "Rilevazioni caricate: " +
+                    dati.length.toLocaleString("it-IT");
+            }
+        };
+
+        xhr.open("GET", url, true);
+
+        xhr.send();
+
+    </script>
+
+</body>
+</html>
